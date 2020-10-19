@@ -1,0 +1,19 @@
+.bootstrapTableStyle {
+  table-layout: auto !important;
+  margin-bottom: 0 !important;
+  min-width: 600px;
+  border-collapse: collapse;
+}
+thead th {
+  border-bottom: 2px solid #e57525 !important;
+  vertical-align: middle;
+  text-transform: uppercase;
+  padding: 3px 5px;
+  height: 30px;
+}
+
+tbody td {
+  vertical-align: middle;
+  padding: 3px 5px;
+  height: 30px;
+}
