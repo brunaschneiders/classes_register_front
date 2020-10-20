@@ -1,29 +1,51 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import propTypes from 'prop-types';
 
 import DefaultLayout from '../pages/_layouts/default';
 import AuthLayout from '../pages/_layouts/auth';
 
+import * as userActions from '../store/user/actions';
+
 export default function RouteWrapper({
   component: Component,
-  isPrivate,
+  isPrivateAdmin,
+  isPrivateGrowdever,
   ...rest
 }) {
-  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  function handleLogout() {
+    dispatch(userActions.logout());
+  }
+
+  const userData = useSelector((state) => state.user);
+  const userType = userData?.user?.type;
   let signed = false;
 
-  if (user) {
+  if (userData) {
     signed = true;
   }
 
-  if (!signed && isPrivate) {
-    return <Redirect to="/login" />;
+  if (!signed && isPrivateAdmin) {
+    return <Redirect to="/" />;
+  }
+  if (signed && !isPrivateAdmin && userType === 'Admin') {
+    return <Redirect to="/admin/available-classes" />;
+  }
+  if (signed && isPrivateAdmin && userType !== 'Admin') {
+    handleLogout();
   }
 
-  if (signed && !isPrivate) {
+  if (!signed && isPrivateGrowdever) {
     return <Redirect to="/" />;
+  }
+  if (signed && !isPrivateGrowdever && userType === 'Growdever') {
+    return <Redirect to="/growdever/available-classes" />;
+  }
+  if (signed && isPrivateGrowdever && userType !== 'Growdever') {
+    handleLogout();
   }
 
   const Layout = signed ? DefaultLayout : AuthLayout;
@@ -41,11 +63,13 @@ export default function RouteWrapper({
 }
 
 RouteWrapper.propTypes = {
-  isPrivate: propTypes.bool,
+  isPrivateAdmin: propTypes.bool,
+  isPrivateGrowdever: propTypes.bool,
   component: propTypes.oneOfType([propTypes.elementType, propTypes.func])
     .isRequired,
 };
 
 RouteWrapper.defaultProps = {
-  isPrivate: false,
+  isPrivateAdmin: false,
+  isPrivateGrowdever: false,
 };

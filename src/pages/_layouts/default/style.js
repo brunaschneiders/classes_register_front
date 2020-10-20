@@ -15,6 +15,11 @@ export const useStyles = makeStyles((theme) => ({
     }),
     zIndex: theme.zIndex.drawer + 1,
   },
+  toolbar: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: drawerWidth,

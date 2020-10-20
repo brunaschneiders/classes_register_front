@@ -19,7 +19,7 @@ import {
   TextButton,
 } from './styles';
 
-import * as userActions from '../../store/user/action';
+import * as userActions from '../../store/user/actions';
 
 export default () => {
   const [name, setName] = useState('');

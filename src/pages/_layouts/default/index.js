@@ -1,32 +1,62 @@
 import React from 'react';
-import Drawer from '@material-ui/core/Drawer';
-import AppBar from '@material-ui/core/AppBar';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ExitToApp } from '@material-ui/icons';
+import {
+  Drawer,
+  AppBar,
+  CssBaseline,
+  Toolbar,
+  List,
+  Typography,
+  Divider,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Button,
+} from '@material-ui/core';
+import {
+  adminMenu,
+  headerAdminMenu,
+  growdeverMenu,
+  headerGrowdeverMenu,
+} from '../../../config/menu';
+import * as userActions from '../../../store/user/actions';
+
 import { useStyles } from './style';
 
-import { menu, headerMenu } from '../../../config/menu';
-
 export default function DefaultLayout({ children }) {
+  const userData = useSelector((state) => state.user);
+  const userType = userData?.user?.type;
+
   const classes = useStyles();
+
+  const dispatch = useDispatch();
+
+  function handleLogout() {
+    dispatch(userActions.logout());
+  }
 
   return (
     <div className={classes.root}>
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar} color="primary">
-        <Toolbar>
+        <Toolbar className={classes.toolbar}>
           <Typography variant="h6" noWrap>
             Aulas da Growdev
           </Typography>
+          <div>
+            <Button
+              color="inherit"
+              endIcon={<ExitToApp />}
+              onClick={() => handleLogout()}
+            >
+              Logout
+            </Button>
+          </div>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -39,37 +69,69 @@ export default function DefaultLayout({ children }) {
         <Toolbar />
         <div className={classes.drawerContainer}>
           <List>
-            {headerMenu.map((item) => (
-              <Link
-                key={item.link}
-                to={item.link}
-                style={{ textDecoration: 'none' }}
-              >
-                <ListItem button key={item.link}>
-                  <ListItemIcon>
-                    <FontAwesomeIcon icon={item.icon} size="lg" />
-                  </ListItemIcon>
-                  <ListItemText primary={item.name} />
-                </ListItem>
-              </Link>
-            ))}
+            {userType === 'Admin' &&
+              headerAdminMenu.map((item) => (
+                <Link
+                  key={item.link}
+                  to={item.link}
+                  style={{ textDecoration: 'none' }}
+                >
+                  <ListItem button key={item.link}>
+                    <ListItemIcon>
+                      <FontAwesomeIcon icon={item.icon} size="lg" />
+                    </ListItemIcon>
+                    <ListItemText primary={item.name} />
+                  </ListItem>
+                </Link>
+              ))}
+            {userType === 'Growdever' &&
+              headerGrowdeverMenu.map((item) => (
+                <Link
+                  key={item.link}
+                  to={item.link}
+                  style={{ textDecoration: 'none' }}
+                >
+                  <ListItem button key={item.link}>
+                    <ListItemIcon>
+                      <FontAwesomeIcon icon={item.icon} size="lg" />
+                    </ListItemIcon>
+                    <ListItemText primary={item.name} />
+                  </ListItem>
+                </Link>
+              ))}
           </List>
           <Divider />
           <List>
-            {menu.map((item) => (
-              <Link
-                key={item.link}
-                to={item.link}
-                style={{ textDecoration: 'none' }}
-              >
-                <ListItem button key={item.link}>
-                  <ListItemIcon>
-                    <FontAwesomeIcon icon={item.icon} size="lg" />
-                  </ListItemIcon>
-                  <ListItemText primary={item.name} />
-                </ListItem>
-              </Link>
-            ))}
+            {userType === 'Admin' &&
+              adminMenu.map((item) => (
+                <Link
+                  key={item.link}
+                  to={item.link}
+                  style={{ textDecoration: 'none' }}
+                >
+                  <ListItem button key={item.link}>
+                    <ListItemIcon>
+                      <FontAwesomeIcon icon={item.icon} size="lg" />
+                    </ListItemIcon>
+                    <ListItemText primary={item.name} />
+                  </ListItem>
+                </Link>
+              ))}
+            {userType === 'Growdever' &&
+              growdeverMenu.map((item) => (
+                <Link
+                  key={item.link}
+                  to={item.link}
+                  style={{ textDecoration: 'none' }}
+                >
+                  <ListItem button key={item.link}>
+                    <ListItemIcon>
+                      <FontAwesomeIcon icon={item.icon} size="lg" />
+                    </ListItemIcon>
+                    <ListItemText primary={item.name} />
+                  </ListItem>
+                </Link>
+              ))}
           </List>
         </div>
       </Drawer>

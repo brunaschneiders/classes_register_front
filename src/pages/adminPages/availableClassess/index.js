@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
   Typography,
   Button,
@@ -22,9 +22,7 @@ import Table from '../../../components/Table';
 
 import growdevLogo from '../../../assets/images/logoGrowdev.png';
 
-import { Container, Box, Row } from './styles';
-
-// import * as userActions from '../../../store/user/action';
+import { Container, Box, Row } from '../../../styles/mainStyles';
 
 export default () => {
   const [growdevClasses, setGrowdevClasses] = useState([]);
@@ -68,8 +66,6 @@ export default () => {
 
   const userData = useSelector((state) => state?.user);
 
-  // const dispatch = useDispatch();
-
   async function getGrowdevClasses() {
     setLoading(true);
     try {
@@ -93,6 +89,7 @@ export default () => {
 
   useEffect(() => {
     getGrowdevClasses();
+    // eslint-disable-next-line
   }, []);
 
   async function handleShowCreateGrowdevClassModal() {
@@ -190,7 +187,7 @@ export default () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await api.put(
+      await api.put(
         `/class-growdevers/${selectedScheduledGrowdeverUid}`,
         {
           status: growdeverStatus,
@@ -345,7 +342,7 @@ export default () => {
 
   return (
     <Container>
-      <Row>
+      <Row style={{ padding: '2%' }}>
         <Typography color="primary" component="h1" variant="h4">
           Aulas disponíveis
         </Typography>
@@ -421,7 +418,7 @@ export default () => {
                       <EditTwoTone color="secondary" />
                     </IconButton>
                   </Tooltip>
-                  <Tooltip title="Cancelar Aula">
+                  <Tooltip title="Cancelar aula">
                     <IconButton
                       style={{ padding: '0px 10px' }}
                       onClick={() =>
@@ -444,7 +441,7 @@ export default () => {
         onClose={() => setShowGrowdevClassRegisterModal(false)}
       >
         <form onSubmit={handleCreateNewGrowdevClass}>
-          <Row style={{ padding: 0 }}>
+          <Row>
             <Input
               type="date"
               label="Quando?"
@@ -465,7 +462,7 @@ export default () => {
               style={{ marginLeft: '10px', marginBottom: '25px' }}
             />
           </Row>
-          <Row style={{ padding: 0 }}>
+          <Row>
             <Input
               type="text"
               label="Status"
@@ -532,7 +529,7 @@ export default () => {
         onClose={() => setShowUpdateGrowdevClassModal(false)}
       >
         <form onSubmit={handleUpdateGrowdevClass}>
-          <Row style={{ padding: 0 }}>
+          <Row>
             <Input
               type="date"
               label="Quando?"
@@ -553,7 +550,7 @@ export default () => {
               style={{ marginLeft: '10px', marginBottom: '25px' }}
             />
           </Row>
-          <Row style={{ padding: 0 }}>
+          <Row>
             <Input
               type="text"
               label="Status"
@@ -591,17 +588,19 @@ export default () => {
         showModal={showConfirmationDeleteGrowdevClassModal}
         onClose={() => setShowConfirmationDeleteGrowdevClassModal(false)}
       >
-        <Typography component="h3" color="primary">
-          Você tem certeza que deseja cancelar esta aula?
-        </Typography>
-        <Button
-          variant="contained"
-          color="secondary"
-          style={{ marginTop: '5%', height: '36px', width: '100%' }}
-          onClick={() => handleDeleteGrowdevClass()}
-        >
-          Confirmar
-        </Button>
+        <>
+          <Typography component="h3" color="primary">
+            Você tem certeza que deseja cancelar esta aula?
+          </Typography>
+          <Button
+            variant="contained"
+            color="secondary"
+            style={{ marginTop: '5%', height: '36px', width: '100%' }}
+            onClick={() => handleDeleteGrowdevClass()}
+          >
+            Confirmar
+          </Button>
+        </>
       </Modal>
       <Modal
         showModal={showMessageModal}

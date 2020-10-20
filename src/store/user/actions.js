@@ -5,9 +5,8 @@ export function login(data) {
   };
 }
 
-export function logout(data) {
+export function logout() {
   return {
     type: '@user/LOGOUT',
-    data,
   };
 }

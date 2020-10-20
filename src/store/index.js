@@ -1,6 +1,6 @@
 import { createStore, combineReducers } from 'redux';
 import { persistStore } from 'redux-persist';
-import user from './user/reducer';
+import user from './user/reducers';
 import persistedReducer from './persistReducers';
 
 const reducers = combineReducers({
