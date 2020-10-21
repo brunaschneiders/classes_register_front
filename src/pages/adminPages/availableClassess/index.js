@@ -33,7 +33,7 @@ export default () => {
   const [
     growdevClassAvailableVacancies,
     setGrowdevClassAvailableVacancies,
-  ] = useState('');
+  ] = useState([]);
   const [
     selectedGrowdevClassEnrolledGrowdevers,
     setSelectedGrowdevClassEnrolledGrowdevers,
@@ -356,6 +356,11 @@ export default () => {
       </Row>
 
       <Box>
+        {growdevClasses.length === 0 && (
+          <Typography component="h3" color="primary">
+            Nenhum aula encontrada.
+          </Typography>
+        )}
         {growdevClasses.map((growdevClass) => {
           return (
             <ClassCard key={growdevClass.uid}>
@@ -400,7 +405,7 @@ export default () => {
                   Vagas restantes: {growdevClass.available_vacancies}
                 </Typography>
                 <CardActions style={{ justifyContent: 'center' }}>
-                  <Tooltip title="Growdevers inscritos">
+                  <Tooltip title="Growdevers Inscritos">
                     <IconButton
                       style={{ padding: '0px 10px' }}
                       onClick={() => getEnrolledsGrowdevers(growdevClass.uid)}
@@ -408,7 +413,7 @@ export default () => {
                       <People color="secondary" />
                     </IconButton>
                   </Tooltip>
-                  <Tooltip title="Atualizar aula">
+                  <Tooltip title="Atualizar Aula">
                     <IconButton
                       style={{ padding: '0px 10px' }}
                       onClick={() =>
@@ -418,7 +423,7 @@ export default () => {
                       <EditTwoTone color="secondary" />
                     </IconButton>
                   </Tooltip>
-                  <Tooltip title="Cancelar aula">
+                  <Tooltip title="Cancelar Aula">
                     <IconButton
                       style={{ padding: '0px 10px' }}
                       onClick={() =>

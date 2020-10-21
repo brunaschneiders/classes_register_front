@@ -69,10 +69,10 @@ export default () => {
   }, []);
 
   async function handleShowCreateUserModal() {
-    setShowUserRegisterModal(true);
     setUserName('');
     setUserUsername('');
     setUserPassword('');
+    setShowUserRegisterModal(true);
   }
 
   async function handleCreateNewUser(e) {
@@ -123,11 +123,11 @@ export default () => {
       );
       setShowMessageModal(true);
     } else {
-      setShowGrowdeverRegisterModal(true);
       setSelectedUser(user);
       setGrowdeverEmail('');
       setGrowdeverPhone('');
       setGrowdeverProgram('');
+      setShowGrowdeverRegisterModal(true);
     }
   }
 
@@ -221,6 +221,11 @@ export default () => {
         </Button>
       </Row>
       <Box>
+        {users.length === 0 && (
+          <Typography component="h3" color="primary">
+            Nenhum usuário encontrado.
+          </Typography>
+        )}
         {users.map((user) => {
           return (
             <ClassCard key={user?.uid}>
@@ -242,7 +247,7 @@ export default () => {
                 <CardActions
                   style={{ justifyContent: 'center', marginTop: '5%' }}
                 >
-                  <Tooltip title="Fazer matrícula">
+                  <Tooltip title="Fazer Matrícula">
                     <IconButton
                       style={{ padding: '0px 10px' }}
                       onClick={() => handleShowRegisterGrowdeverModal(user)}
@@ -250,7 +255,7 @@ export default () => {
                       <Add color="secondary" />
                     </IconButton>
                   </Tooltip>
-                  <Tooltip title="Deletar usuário">
+                  <Tooltip title="Deletar Usuário">
                     <IconButton
                       style={{ padding: '0px 10px' }}
                       onClick={() =>

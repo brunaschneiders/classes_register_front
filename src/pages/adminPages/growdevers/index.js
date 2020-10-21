@@ -31,7 +31,7 @@ export default () => {
     showScheduledGrowdevClassesModal,
     setShowScheeduledGrowdevClassesModal,
   ] = useState(false);
-  const [scheduledGrowdevClasses, setScheduledGrowdevClasses] = useState('');
+  const [scheduledGrowdevClasses, setScheduledGrowdevClasses] = useState([]);
 
   const [modalMessage, setModalMessage] = useState('');
   const [showMessageModal, setShowMessageModal] = useState(false);
@@ -236,6 +236,11 @@ export default () => {
         </Typography>
       </Row>
       <Box>
+        {growdevers.length === 0 && (
+          <Typography component="h3" color="primary">
+            Nenhum Growdever encontrado.
+          </Typography>
+        )}
         {growdevers.map((growdever) => {
           return (
             <ClassCard key={growdever?.uid}>
@@ -263,7 +268,7 @@ export default () => {
                 <CardActions
                   style={{ justifyContent: 'center', marginTop: '5%' }}
                 >
-                  <Tooltip title="Visualizar aulas agendadas">
+                  <Tooltip title="Visualizar Aulas Agendadas">
                     <IconButton
                       style={{ padding: '0px 10px' }}
                       onClick={() => getScheduledGrowdevClasses(growdever)}
@@ -271,7 +276,7 @@ export default () => {
                       <List color="secondary" />
                     </IconButton>
                   </Tooltip>
-                  <Tooltip title="Atualizar informações">
+                  <Tooltip title="Atualizar Informações">
                     <IconButton
                       style={{ padding: '0px 10px' }}
                       onClick={() => handleShowUpdateGrowdeverModal(growdever)}

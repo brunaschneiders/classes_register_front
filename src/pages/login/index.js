@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Typography } from '@material-ui/core';
+import { Typography, Button } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import api from '../../services/api';
 
 import Input from '../../components/Input';
 import Spinner from '../../components/Spinner';
+import Modal from '../../components/Modal';
 
 import logoGrowdevImage from '../../assets/images/logoGrowdev.png';
 
@@ -32,6 +33,7 @@ export default () => {
   const [messageSuccessAlert, setMessageSuccessAlert] = useState();
   const [showErrorAlert, setShowErrorAlert] = useState(false);
   const [messageErrorAlert, setMessageErrorAlert] = useState();
+  const [showInvitationModal, setShowInvitationModal] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -87,9 +89,16 @@ export default () => {
         username,
         password,
       });
+      const userType = response?.data?.user?.type;
+      const isGrowdever = response?.data?.user?.growdever;
 
-      if (response?.data?.token) {
+      if (
+        response?.data?.token &&
+        (isGrowdever !== null || userType === 'Admin')
+      ) {
         dispatch(userActions.login(response.data));
+      } else {
+        setShowInvitationModal(true);
       }
     } catch (error) {
       setLoading(false);
@@ -176,6 +185,30 @@ export default () => {
       >
         Fundo vetor criado por freepik - br.freepik.com
       </a>
+      <Modal
+        showModal={showInvitationModal}
+        onClose={() => setShowInvitationModal(false)}
+      >
+        <>
+          <Typography
+            component="h3"
+            color="primary"
+            style={{ width: '400px', textAlign: 'justify' }}
+          >
+            Olá, percebemos que você ainda não é um Growdever, acesse o site da
+            Growdev e contate-nos para que possas aproveitar as oportunidades
+            oferecidas.
+          </Typography>
+          <Button
+            variant="contained"
+            color="secondary"
+            style={{ marginTop: '5%', height: '36px', width: '100%' }}
+            href="http://www.growdev.com.br/"
+          >
+            Visitar o site da Growdev
+          </Button>
+        </>
+      </Modal>
     </Container>
   );
 };
