@@ -1,6 +1,6 @@
 ## Access
 
-this project is hosted on Heroku and can be accessed through the link: https://classes-register-front.herokuapp.com/
+This project is hosted on Heroku and can be accessed through the link: https://classes-register-front.herokuapp.com/
 
 ## API
 
