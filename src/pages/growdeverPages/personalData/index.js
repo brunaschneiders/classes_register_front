@@ -20,6 +20,12 @@ import Modal from '../../../components/Modal';
 import { Container, Box, Row } from '../../../styles/mainStyles';
 
 export default () => {
+  const userToken = useSelector((state) => state?.user?.token);
+
+  const userData = useSelector((state) => state?.user);
+  const [growdeverData, setGrowdeverData] = useState(
+    useSelector((state) => state?.user?.user?.growdever)
+  );
   const [growdeverEmail, setGrowdeverEmail] = useState('');
   const [growdeverPhone, setGrowdeverPhone] = useState('');
   const [
@@ -33,11 +39,9 @@ export default () => {
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const userData = useSelector((state) => state?.user);
-
   async function handleShowUpdateContactInformationsModal() {
-    setGrowdeverEmail('');
-    setGrowdeverPhone('');
+    setGrowdeverEmail(growdeverData?.email);
+    setGrowdeverPhone(growdeverData?.phone);
     setShowUpdateContactInformationsModal(true);
   }
 
@@ -48,21 +52,23 @@ export default () => {
       const response = await api.put(
         `/growdevers/${userData?.user?.growdever?.uid}`,
         {
+          program: growdeverData.program,
           email: growdeverEmail,
           phone: growdeverPhone,
         },
         {
-          headers: { Authorization: `Bearer ${userData.token}` },
+          headers: { Authorization: `Bearer ${userToken}` },
         }
       );
+      setGrowdeverData(response?.data?.growdever);
       setLoading(false);
       if (response?.data?.message) {
         setModalMessage(response.data.message);
       } else {
         setModalMessage('Informações atualizadas com sucesso!');
       }
-      setShowMessageModal(true);
       setShowUpdatePasswordModal(false);
+      setShowMessageModal(true);
     } catch (error) {
       setLoading(false);
       if (error?.response?.data?.message) {
@@ -96,7 +102,7 @@ export default () => {
           password: userNewPassword,
         },
         {
-          headers: { Authorization: `Bearer ${userData.token}` },
+          headers: { Authorization: `Bearer ${userToken}` },
         }
       );
       setLoading(false);
@@ -124,7 +130,6 @@ export default () => {
 
   return (
     <Container>
-      {console.log(userData)}
       <Row style={{ padding: '2%' }}>
         <Typography color="primary" component="h1" variant="h4">
           Dados pessoais
@@ -145,13 +150,13 @@ export default () => {
               Username: {userData?.user?.username}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-              Programa: {userData?.user?.growdever.program}
+              Programa: {growdeverData?.program}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-              Email: {userData?.user?.growdever.email}
+              Email: {growdeverData?.email}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-              Telefone: {userData?.user?.growdever.phone}
+              Telefone: {growdeverData?.phone}
             </Typography>
             <CardActions style={{ justifyContent: 'center', marginTop: '2%' }}>
               <Tooltip title="Atualizar Informações de Contato">
