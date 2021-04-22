@@ -8,8 +8,13 @@
 - [x] Growdever registration
 - [x] Registration of classes
 - [x] Scheduling classes
+- [x] Update users data
 - [x] List of students enrolled for classes
 - [x] List of classes scheduled per student
+
+  ![](20210421_214453.gif)
+  ![](20210421_214751.gif)
+  ![](20210421_214856.gif)
 
 ## Access
 
