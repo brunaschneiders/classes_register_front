@@ -1,3 +1,16 @@
+# Growdev Classes Register
+
+## 🚀 Application for registration and scheduling of classes.
+
+### Features
+
+- [x] User registration
+- [x] Growdever registration
+- [x] Registration of classes
+- [x] Scheduling classes
+- [x] List of students enrolled for classes
+- [x] List of classes scheduled per student
+
 ## Access
 
 This project is hosted on Heroku and can be accessed through the link: https://classes-register-front.herokuapp.com/
@@ -5,8 +18,6 @@ This project is hosted on Heroku and can be accessed through the link: https://c
 ## API
 
 The API used in this project was built with NODE and can be found in the following repository: https://github.com/brunaschneiders/classes_register_back
-
-
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
